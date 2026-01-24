@@ -1,0 +1,87 @@
+import React, { useState } from 'react'
+import Input from '../components/Input'
+import Button from '../components/Button'
+import SwitchTogil from '../components/SwitchTogil';
+import FormLayout from '../components/FormLayout';
+import axios from 'axios';
+import { Navigate } from 'react-router-dom';
+export default function Login_Sign_Forms() {
+    const [formType, setFormType] = useState('login');
+    const [loginData, setLoginData] = useState({
+        email: '',
+        password: ''
+    });
+    const [signupData, setSignupData] = useState({
+        name: '',
+        email: '',
+        password: ''
+    });
+    const handleLoginSubmit = async (e) => {
+        // Handle login form submission
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/v1/api/auth/login', loginData);
+            console.log('Login successful:', response.data);
+            setLoginData({
+                email: '',
+                password: ''
+            });
+            localStorage.setItem("mvec_token", response.data.token);
+            localStorage.setItem("mvec-user", JSON.stringify(response.data.data.name));
+            location.replace("/");
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+    const handleSignupSubmit = async (e) => {
+        // Handle signup form submission
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/v1/api/auth/signup', signupData);
+            console.log('Signup successful:', response.data);
+            setSignupData({
+                name: '',
+                email: '',
+                password: ''
+            });
+            localStorage.setItem("mvec_token", response.data.token);
+            localStorage.setItem("mvec-user", JSON.stringify(response.data.data.name));
+        } catch (error) {
+            console.error("Signup error:", error.response?.data || error.message);
+            alert(error.response?.data?.message || "Signup failed");
+        }
+    }
+    return (
+        <FormLayout>
+            <SwitchTogil onClick={() => { setFormType(formType == 'signup' ? 'login' : 'signup') }}>
+                <p className={formType == 'signup' ? 'text-white' : ''}>Sign up</p>
+                <p className={formType == 'login' ? 'text-white' : ''}>Log in</p>
+                <span className={formType == 'signup' ? 'left-0' : 'left-91.5'}></span>
+            </SwitchTogil>
+            {
+                formType == 'signup'
+                    ? (
+                        <>
+                            <Input onChange={(e) => setSignupData({ ...signupData, name: e.target.value })} value={signupData.name} placeholder="Name" />
+                            <Input onChange={(e) => setSignupData({ ...signupData, email: e.target.value })} value={signupData.email} placeholder="Email" />
+                            <Input onChange={(e) => setSignupData({ ...signupData, password: e.target.value })} value={signupData.password} placeholder="Password" type="password" />
+                            <div style={{ width: '10rem' }} >
+                                <Button onClick={handleSignupSubmit} style={'btn-primary'}>Sign Up</Button>
+                            </div>
+                        </>
+                    )
+                    : (
+                        <>
+                            <Input onChange={(e) => setLoginData({ ...loginData, email: e.target.value })} value={loginData.email} placeholder="Email" />
+                            <Input onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} value={loginData.password} placeholder="Password" type="password" />
+                            <div style={{ width: '10rem' }} >
+                                <Button onClick={handleLoginSubmit} style={'btn-primary'}>Log In</Button>
+                            </div>
+                        </>
+                    )
+            }
+        </FormLayout>
+    )
+}
+
