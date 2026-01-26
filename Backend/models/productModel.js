@@ -33,6 +33,11 @@ const productSchema = new mongoose.Schema(
         categoryId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Category'
+        },
+        isApproved: {
+            type: String,
+            enum: ['pending', 'approved', 'rejected'],
+            default: 'pending'
         }
     },
     { timestamps: true }

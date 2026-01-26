@@ -3,12 +3,81 @@ const product = require('../models/productModel');
 // Function to get all products
 const getAllProducts = async (req, res) => {
     try {
-        const products = await product.find();
+        let filter = {};
+
+        // Apply query filters if any
+        if (req.query) {
+            filter = { ...req.query };
+        }
+
+        const products = await product.find(filter);
+
         res.json({
             status: 'success',
             message: 'Products fetched successfully',
+            results: products.length,
             data: products,
         });
+
+    } catch (err) {
+        res.status(500).json({
+            status: 'fail',
+            message: err.message,
+        });
+    }
+};
+// Function to get products by seller id
+const getProductsBySellerId = async (req, res) => {
+    try {
+        let filter = {};
+        //ensure seller can only get their products
+        if (req.user?.role === 'seller') {
+            // Set sellerId filter 
+            filter.sellerId = req.user._id;
+            // Apply query filters if any
+            if (req.query) {
+                filter = { ...filter, ...req.query };
+            }
+        } else {
+            return res.status(403).json({
+                status: 'fail',
+                message: 'Access denied',
+            });
+        }
+
+        const products = await product.find(filter);
+
+        res.json({
+            status: 'success',
+            message: 'Products fetched successfully',
+            results: products.length,
+            data: products,
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            status: 'fail',
+            message: err.message,
+        });
+    }
+};
+// Function to get Approved products
+const getApprovedProducts = async (req, res) => {
+    try {
+        let filter = { isApproved: 'approved' };
+        // Apply query filters if any
+        if (req.query) {
+            filter = { ...filter, ...req.query };
+        }
+        const products = await product.find(filter);
+
+        res.json({
+            status: 'success',
+            message: 'Approved Products fetched successfully',
+            results: products.length,
+            data: products,
+        });
+
     } catch (err) {
         res.status(500).json({
             status: 'fail',
@@ -55,7 +124,8 @@ const addProduct = async (req, res) => {
             stock,
             categoryId,
             sellerId,
-            images
+            images,
+            isApproved: 'pending',
         };
         const savedProduct = await product.create(productData);
         res.status(201).json({
@@ -70,6 +140,7 @@ const addProduct = async (req, res) => {
         });
     }
 };
+//update product
 const updateProduct = async (req, res) => {
     try {
         const productId = req.params.id;
@@ -95,6 +166,30 @@ const updateProduct = async (req, res) => {
         });
     }
 };
+//update product status admin only
+const updateProductStatus = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const updateData = {
+            isApproved: req.body.isApproved,
+        };
+        const updatedProduct = await product.findByIdAndUpdate(productId, updateData, { new: true });
+        if (!updatedProduct) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.json({
+            status: 'success',
+            message: 'Product status updated successfully',
+            data: updatedProduct,
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: 'fail',
+            message: err.message,
+        });
+    }
+};
+
 // Function to delete a product
 const deleteProduct = async (req, res) => {
     try {
@@ -122,4 +217,7 @@ module.exports = {
     addProduct,
     updateProduct,
     deleteProduct,
+    updateProductStatus,
+    getApprovedProducts,
+    getProductsBySellerId
 };

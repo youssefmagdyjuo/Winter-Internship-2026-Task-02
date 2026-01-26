@@ -6,36 +6,25 @@
     border: none;
     box-sizing: border-box;
     list-style: none;
-    font-size: 1rem;
     font-family: 'serif', Arial, sans-serif;
 }
 
 :root {
     --color-primary: #18B4DB;
-    --color-secondary: #1e3946;
+    --color-secondary: #2b4351;
     --color-danger: #ef4444;
     --black: #313131;
     --light-gray: #b8c3c7;
-    --white: #fff;
+    --white: #f0f0f0;
 }
 
 body {
-    color: var(--white);
-    background: #535d6c;
-    background-image: url('/bg2.jpg');
-    background-size: cover;
-    background-position: center;
-}
-
-.layout {
-    background-color: rgba(255, 255, 255, 0.114);
-    backdrop-filter: blur(7px);
-    height: 100vh;
+    color: var(--color-secondary);
+    background: var(--white);
 }
 
 h1 {
     font-size: 3rem;
-
 }
 
 h2 {
@@ -44,13 +33,13 @@ h2 {
 
 .btn {
     padding: 0.6rem 1rem;
-    border-radius: 5rem;
+    border-radius: 1rem;
     font-weight: 500;
     transition: background-color 200ms;
     cursor: pointer;
     border: none;
-    min-width: 11rem;
-    font-size: 1.2rem;
+    width: 100%;
+    font-size: 1.1rem;
 }
 
 .btn-primary {
@@ -72,16 +61,20 @@ h2 {
     background-color: var(--white);
     color: var(--color-secondary);
 }
+
 .btn-thirdary:hover {
     background-color: #e5e7eb;
 }
+
 .btn-danger {
     background-color: var(--color-danger);
     color: white;
 }
+
 .btn-danger:hover {
     background-color: #dc2626;
 }
+
 .btn-secondary:hover {
     background-color: #4b5563;
 }
@@ -99,8 +92,10 @@ h2 {
 }
 
 /* ===========navBar============= */
-.navbar {
-    /* background-color: var(--white); */
+/*upper navbar*/
+.upper_navbar_container {
+    background-color: var(--color-secondary);
+    height: 5rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 1rem 1.5rem;
     position: sticky;
@@ -109,14 +104,15 @@ h2 {
 
 }
 
-.navbar nav {
+.upper_navbar_container .upper_navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 100%;
     margin: 0 auto;
-    }
+}
 
-.navbar h1 {
+.upper_navbar_container h1 {
     font-size: 1.8rem;
     color: var(--white);
     font-family: 'Arial Black', sans-serif;
@@ -124,26 +120,64 @@ h2 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.nav_links {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
+.layout {
+    margin-left: 15rem;
+}
+.full_layout {
+    margin-left: 0rem;
+
 }
 
-.nav_links li {
+.nav_btn {
     color: var(--white);
-    font-weight: 500;
     cursor: pointer;
-    transition: color 200ms;
-    font-size: 1.2rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-
+    font-size: 1.5rem;
+    display: none;
 }
 
-.nav_links li:hover {
-    color: var(--color-primary);
-}
+/*side navbar*/
+.side_navbar_container {
+    width: 15rem;
+    height: 100vh;
+    position: fixed;
+    top: 5rem;
+    left: 0;
+    background-color: var(--color-secondary);
+    padding-top: 1rem;
+    /* To account for the upper navbar height */
+    box-shadow: 5px 0 10px rgba(0, 0, 0, 0.098);
+    z-index: 99;
+    color: var(--white);
+    transition: transform 0.3s ease-in-out;
 
+}
+.navBar_closed{
+    transform: translateX(-100%);
+    
+}
+.side_navbar_links{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+    
+}
+.side_navbar_links .link{
+    color: var(--white);
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s;
+    display: grid;
+    grid-template-columns: 15% 85%;
+    align-items: center;
+    gap: 1rem;
+    /* background-color: red; */
+}
+.active_link, .side_navbar_links .link:hover{
+    background-color: var(--color-primary);
+    cursor: pointer;
+}
 /* =============hero section============= */
 .heroSection {
     display: flex;
@@ -180,15 +214,7 @@ h2 {
     width: 40rem;
 }
 
-.logs {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
 
-.w-25 {
-    width: 120px;
-}
 
 .switch_container {
     display: flex;
@@ -254,9 +280,10 @@ form ::placeholder {
 /* ============== media queries ============== */
 
 @media (max-width: 1024px) {
-    /* body{
-        color: red;
+    /* body {
+        background-color: red;
     } */
+
     .heroSection {
         flex-direction: column;
         padding: 2rem;
@@ -276,10 +303,25 @@ form ::placeholder {
         width: 30rem;
     }
 
+    .nav_btn {
+        display: flex;
+    }
+    .layout {
+        margin-left: 0rem;
+    }
+    .side_navbar_container{
+        width: 100%;
+        
+    }
+    .side_navbar_container .side_navbar_links{
+        width: 50%;
+    }
+    
 }
 
 @media (max-width: 836px) {
-/* body{
+
+    /* body{
         color: blue;
     } */
     .heroContent h1 {
@@ -297,9 +339,6 @@ form ::placeholder {
 }
 
 @media (max-width: 680px) {
-    .nav_links {
-        display: none;
-    }
 
     .heroContent h1 {
         font-size: 2rem;
