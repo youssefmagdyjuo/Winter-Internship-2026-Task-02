@@ -17,7 +17,7 @@ export default function LogoutButton() {
     return (
         <Button
             onClick={handleLogout}
-            style={'btn-danger'}>
+            style={'btn-thirdary'}>
             <div className="flex gap-2 items-center justify-center">
                 Logout
                 <i className="fa-solid fa-arrow-right-from-bracket"></i>

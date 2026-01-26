@@ -8,7 +8,12 @@
     list-style: none;
     font-family: 'serif', Arial, sans-serif;
 }
+.center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+}
 :root {
     --color-primary: #18B4DB;
     --color-secondary: #2b4351;
@@ -33,7 +38,7 @@ h2 {
 
 .btn {
     padding: 0.6rem 1rem;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     font-weight: 500;
     transition: background-color 200ms;
     cursor: pointer;
@@ -111,6 +116,9 @@ h2 {
     height: 100%;
     margin: 0 auto;
 }
+.upper_navbar_container .upper_navbar img{
+    width: 8rem;
+}
 
 .upper_navbar_container h1 {
     font-size: 1.8rem;
@@ -149,7 +157,22 @@ h2 {
     z-index: 99;
     color: var(--white);
     transition: transform 0.3s ease-in-out;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.accountLink{
+    position: absolute;
+    bottom: 5.3rem;
+    /* background-color: green; */
+    width: 100%;
+    height: 3rem;
+    padding: 0.5rem 1rem;
+    display: grid;
+    grid-template-columns: 15% 85%;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.212);
 }
 .navBar_closed{
     transform: translateX(-100%);
@@ -160,6 +183,7 @@ h2 {
     flex-direction: column;
     gap: 1.5rem;
     padding: 1rem;
+    /* background-color: red; */
     
 }
 .side_navbar_links .link{

@@ -66,18 +66,18 @@ export default function Login_Sign_Forms() {
                             <Input onChange={(e) => setSignupData({ ...signupData, name: e.target.value })} value={signupData.name} placeholder="Name" />
                             <Input onChange={(e) => setSignupData({ ...signupData, email: e.target.value })} value={signupData.email} placeholder="Email" />
                             <Input onChange={(e) => setSignupData({ ...signupData, password: e.target.value })} value={signupData.password} placeholder="Password" type="password" />
-                            <div style={{ width: '10rem' }} >
+                            {/* <div style={{ width: '10rem' }} > */}
                                 <Button onClick={handleSignupSubmit} style={'btn-primary'}>Sign Up</Button>
-                            </div>
+                            {/* </div> */}
                         </>
                     )
                     : (
                         <>
                             <Input onChange={(e) => setLoginData({ ...loginData, email: e.target.value })} value={loginData.email} placeholder="Email" />
                             <Input onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} value={loginData.password} placeholder="Password" type="password" />
-                            <div style={{ width: '10rem' }} >
+                            {/* <div style={{ width: '10rem' }} > */}
                                 <Button onClick={handleLoginSubmit} style={'btn-primary'}>Log In</Button>
-                            </div>
+                            {/* </div> */}
                         </>
                     )
             }
