@@ -14,7 +14,7 @@ const signup = async (req, res) => {
         const userData = { name, email, password: hashedPassword, role };
         const newUser = await user.create(userData);
         // Generate JWT token upon successful signup
-        const token = createToken(newUser._id);
+        const token = createToken(newUser._id,newUser.role);
         res.status(201).json({
             status: 'success',
             message: 'User signed up successfully',
@@ -37,7 +37,7 @@ const login = async (req, res) => {
             return res.status(400).json({ message: "Invalid email or password" });
         }
         // Generate JWT token upon successful login
-        const token = createToken(existingUser._id);
+        const token = createToken(existingUser._id,existingUser.role);
         //send response
         res.status(200).json({
             status: 'success',

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const navBarSlice = createSlice({
     name: "navBar",
     initialState: {
-        isOpen: true,
+        isOpen: window.innerWidth > 1024,
     },
     reducers: {
         toggleNavBar: (state) => {

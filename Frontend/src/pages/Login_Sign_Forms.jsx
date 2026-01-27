@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import SwitchTogil from '../components/SwitchTogil';
@@ -6,6 +6,7 @@ import FormLayout from '../components/FormLayout';
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
 export default function Login_Sign_Forms() {
+
     const [formType, setFormType] = useState('login');
     const [loginData, setLoginData] = useState({
         email: '',
@@ -47,9 +48,9 @@ export default function Login_Sign_Forms() {
             });
             localStorage.setItem("mvec_token", response.data.token);
             localStorage.setItem("mvec-user", JSON.stringify(response.data.data.name));
+            location.replace("/");
         } catch (error) {
             console.error("Signup error:", error.response?.data || error.message);
-            alert(error.response?.data?.message || "Signup failed");
         }
     }
     return (
@@ -67,7 +68,7 @@ export default function Login_Sign_Forms() {
                             <Input onChange={(e) => setSignupData({ ...signupData, email: e.target.value })} value={signupData.email} placeholder="Email" />
                             <Input onChange={(e) => setSignupData({ ...signupData, password: e.target.value })} value={signupData.password} placeholder="Password" type="password" />
                             {/* <div style={{ width: '10rem' }} > */}
-                                <Button onClick={handleSignupSubmit} style={'btn-primary'}>Sign Up</Button>
+                            <Button onClick={handleSignupSubmit} style={'btn-primary'}>Sign Up</Button>
                             {/* </div> */}
                         </>
                     )
@@ -76,7 +77,7 @@ export default function Login_Sign_Forms() {
                             <Input onChange={(e) => setLoginData({ ...loginData, email: e.target.value })} value={loginData.email} placeholder="Email" />
                             <Input onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} value={loginData.password} placeholder="Password" type="password" />
                             {/* <div style={{ width: '10rem' }} > */}
-                                <Button onClick={handleLoginSubmit} style={'btn-primary'}>Log In</Button>
+                            <Button onClick={handleLoginSubmit} style={'btn-primary'}>Log In</Button>
                             {/* </div> */}
                         </>
                     )

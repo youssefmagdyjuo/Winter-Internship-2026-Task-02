@@ -13,7 +13,6 @@ export default function UpperNavBar() {
         <div className='upper_navbar_container'>
             <nav className='upper_navbar'>
                 <Link to="/"><img src="/logo.svg" alt="Logo" className="w-25" /></Link>
-
                             <div className="w-25 hidden lg:block">
                                 {
                                     user

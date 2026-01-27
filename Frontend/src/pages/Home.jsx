@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 
 export default function Home() {
+    const storedUser = localStorage.getItem("mvec-user-role");
+    const user_role = storedUser ? JSON.parse(storedUser) : null;
     return (
         <div>
             <section className="heroSection">
                 <div className="heroContent">
-                    <h1>Welcome to Shopifay</h1>
+                    <h1>Welcome to Viteruca</h1>
                     <p>Your one-stop shop for all your needs. Discover a wide range of products at unbeatable prices.</p>
                     <div className="w-40">
                         <Link to="/products">
