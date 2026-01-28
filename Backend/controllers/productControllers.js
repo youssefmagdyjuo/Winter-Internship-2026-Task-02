@@ -111,12 +111,21 @@ const addProduct = async (req, res) => {
     try {
         const { title, description, price, stock, categoryId } = req.body;
         // Handle uploaded images
+        // Hero Image
+        let heroImage = null;
+        if (req.files?.heroImage) {
+            heroImage = req.files.heroImage[0].path.replace(/\\/g, "/");
+            console.log('heroImage:'+ heroImage)
+        }
+        // Product Gallery
         let images = [];
-        if (req.files) {
-            images = req.files.map(file => file.path.replace(/\\/g, "/"));
+        if (req.files?.images) {
+            images = req.files.images.map(file => file.path.replace(/\\/g, "/"));
+            console.log('images:'+images)
         }
         // sellerId from token 
         const sellerId = req.user._id;
+
         const productData = {
             title,
             description,
@@ -124,6 +133,7 @@ const addProduct = async (req, res) => {
             stock,
             categoryId,
             sellerId,
+            heroImage,
             images,
             isApproved: 'pending',
         };

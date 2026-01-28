@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { navBarSlice } from "../features/puplic/navBar.js";
+import navBarReducer from "../features/puplic/navBar.js"; 
+import approvedProductsReducer from "../features/products/approvedProducts.js"; 
 export const store = configureStore({
     reducer: {
-        // Add your reducers here
-        navBar: navBarSlice.reducer,
+        navBar: navBarReducer, 
+        approvedProducts: approvedProductsReducer
     },
-    
 });

@@ -25,6 +25,10 @@ const productSchema = new mongoose.Schema(
                 type: String
             }
         ],
+        heroImage:{
+            type:String,
+            required: [true, 'Hero image is required'],
+        },
         sellerId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',

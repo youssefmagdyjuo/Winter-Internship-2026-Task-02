@@ -26,4 +26,7 @@ const upload = multer({
     limits: { fileSize: 5 * 1024 * 1024 } // 5MB لكل صورة
 });
 
-module.exports = upload;
+exports.uploadProductImages = upload.fields([
+    { name: 'heroImage', maxCount: 1 },
+    { name: 'images', maxCount: 5 }
+]);
