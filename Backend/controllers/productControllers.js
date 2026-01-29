@@ -115,13 +115,13 @@ const addProduct = async (req, res) => {
         let heroImage = null;
         if (req.files?.heroImage) {
             heroImage = req.files.heroImage[0].path.replace(/\\/g, "/");
-            console.log('heroImage:'+ heroImage)
+            // console.log('heroImage:'+ heroImage)
         }
         // Product Gallery
         let images = [];
         if (req.files?.images) {
             images = req.files.images.map(file => file.path.replace(/\\/g, "/"));
-            console.log('images:'+images)
+            // console.log('images:'+images)
         }
         // sellerId from token 
         const sellerId = req.user._id;

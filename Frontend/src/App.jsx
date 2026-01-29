@@ -7,6 +7,7 @@ import About from './pages/About';
 import Products from './pages/Products';
 import Contact from './pages/Contact';
 import ProtectedRoute from './components/ProtectedRoute';
+import AddProduct from './pages/AddProduct';
 function App() {
 
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login-signup" element={<Login_Sign_Forms />} />
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProtectedRoute><Products /></ProtectedRoute>} />
+        <Route path="/add-product" element={<ProtectedRoute><AddProduct /></ProtectedRoute>} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         </Route>

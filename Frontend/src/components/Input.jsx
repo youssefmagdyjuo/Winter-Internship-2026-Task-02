@@ -1,7 +1,33 @@
-import React from 'react'
+import React, { forwardRef } from 'react';
 
-export default function Input({ placeholder , value , onChange , type="text" }) {
+const Input = forwardRef(({
+    placeholder,
+    value,
+    onChange,
+    type = "text",
+    accept,
+    multiple,
+    name,
+    style,
+    id,
+    list
+}, ref) => {
     return (
-        <input className='input' type={type} placeholder={placeholder} value={value} onChange={onChange} />
-    )
-}
+        <input
+            ref={ref}
+            className="input"
+            type={type}
+            accept={accept}
+            multiple={multiple}
+            placeholder={placeholder}
+            value={type !== 'file' ? value ?? '' : undefined}
+            onChange={onChange}
+            name={name}
+            style={style}
+            id={id}
+            list={list}
+        />
+    );
+});
+
+export default Input;

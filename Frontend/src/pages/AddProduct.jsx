@@ -1,0 +1,212 @@
+import React, { useEffect, useRef, useState } from 'react'
+import FormLayout from '../components/FormLayout'
+import Input from '../components/Input'
+import Button from '../components/Button'
+import axios from 'axios';
+import Selector from '../components/Selector';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories } from '../features/products/categories'
+import { fetchCategories } from '../hooks/productsFetching';
+export default function AddProduct() {
+    //variables & states
+    const dispatch = useDispatch()
+    const categories = useSelector((state) => state.categories) || [];
+    const heroImageRef = useRef();
+    const imagesRef = useRef();
+    const [productFormFields, setProductFormFields] = useState([
+        {
+            name: 'title',
+            value: '',
+            placeholder: 'Product Name',
+            type: 'text'
+        },
+        {
+            name: 'description',
+            value: '',
+            placeholder: 'Description',
+            type: 'text'
+        },
+        {
+            name: 'categoryId',
+            value: '',
+            placeholder: 'Category',
+            type: 'text',
+        },
+        {
+            name: 'price',
+            value: null,
+            placeholder: 'Price',
+            type: 'number'
+        },
+        {
+            name: 'stock',
+            value: null,
+            placeholder: 'Stock',
+            type: 'number'
+        },
+        {
+            name: 'heroImage',
+            value: '',
+            type: 'file',
+            accept: 'image/*',
+            multiple: false
+        },
+        {
+            name: 'images',
+            value: [],
+            type: 'file',
+            accept: 'image/*',
+            multiple: true
+        }
+    ])
+    const heroImageField = productFormFields.find(f => f.name === 'heroImage');
+    const imagesField = productFormFields.find(f => f.name === 'images');
+
+    //fetching categories
+    useEffect(() => {
+        const renderFun = async () => {
+            const data = await fetchCategories()
+            dispatch(getCategories(data))
+        }
+        renderFun()
+    }, [])
+
+    //handle options to send it to selector
+    const categoryOptions = categories.map(c => ({
+        value: c._id,
+        label: c.name
+    }));
+
+    // functions
+    const resetProductFormFields = () => {
+        setProductFormFields(prev =>
+            prev.map(field => ({
+                ...field,
+                value:
+                    field.type === 'file'
+                        ? field.multiple
+                            ? []      // multiple files
+                            : null    // single file
+                        : field.type === 'number'
+                            ? null
+                            : ''       // text inputs
+            }))
+        );
+    };
+    const handleInputChange = (e, fieldName) => {
+        const value = fieldName === 'heroImage'
+            ? e.target.files[0]           // one file
+            : fieldName === 'images'
+                ? Array.from(e.target.files) // multiple files
+                : e.target.value;            // ather fields
+
+        setProductFormFields(prev =>
+            prev.map(field =>
+                field.name === fieldName
+                    ? { ...field, value }
+                    : field
+            )
+        );
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const formData = new FormData();
+            productFormFields.forEach(field => {
+                if (field.type !== 'file') {
+                    formData.append(field.name, field.value);
+                }
+            });
+            //add hero image
+            const heroImageField = productFormFields.find(f => f.name === 'heroImage');
+            if (heroImageField.value) {
+                formData.append('heroImage', heroImageField.value);
+            }
+            //add product gallery
+            const imagesField = productFormFields.find(f => f.name === 'images');
+            imagesField.value.forEach(file => {
+                formData.append('images', file);
+            });
+            //get token from localStorage
+            const token = localStorage.getItem('mvec_token');
+            //add product
+            const response = await axios.post(
+                'http://localhost:5000/v1/api/products',
+                formData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+            console.log('Product added:', response.data);
+            resetProductFormFields()
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+
+    return (
+        <div>
+            <FormLayout
+                onSubmit={handleSubmit}
+                enctype={'multipart/form-data'}
+            >
+                <h2 className='title'>Add Product</h2>
+                {/* render inputs fields  */}
+                {productFormFields
+                    .filter(field => field.name !== 'categoryId')
+                    .map(field => (
+                        <Input
+                            key={field.name}
+                            value={field.value}
+                            type={field.type}
+                            name={field.name}
+                            placeholder={field.placeholder}
+                            accept={field.accept}
+                            multiple={field.multiple}
+                            onChange={(e) => { handleInputChange(e, field.name) }}
+                            ref={field.name === 'images' ? imagesRef : field.name === 'heroImage' ? heroImageRef : null}
+                            style={field.name === 'images' || field.name === 'heroImage' ? { display: 'none' } : {}}
+                            id={field.id}
+                        />
+                    ))}
+                {/* choose category  */}
+                <Selector
+                    options={categoryOptions}
+                    placeholder={"Select category..."}
+                    onChange={(selected) =>
+                        handleInputChange(
+                            { target: { value: selected.value } },
+                            'categoryId'
+                        )}
+                />
+                {/* uploud hero image input */}
+                <button className='add_file_input' type="button" onClick={() => heroImageRef.current.click()}>
+                    {heroImageField.value
+                        ? heroImageField.value.name
+                        : <div className='flex gap-2 items-center'>
+                            <i className="fa-solid fa-upload"></i>Upload Product Hero Image
+                        </div>
+                    }
+                </button>
+
+                {/* uploud product gallery input */}
+                <button className='add_file_input' type="button" onClick={() => imagesRef.current.click()}>
+                    {imagesField.value.length > 0
+                        ? imagesField.value.map(file => file.name).join(', ')
+                        : <div className='flex gap-2 items-center'>
+                            <i className="fa-solid fa-upload"></i>Upload Product Gallery (1~5)
+                        </div>
+                    }
+                </button>
+                <Button style={"btn-primary "}>
+                    Add
+                </Button>
+            </FormLayout>
+        </div>
+    )
+}

@@ -26,3 +26,17 @@ export const fetchApprovedProductsData = async () => {
         return [];
     }
 };
+export const fetchCategories = async () => {
+    try {
+        //fetch categories
+        const response = await axios.get(
+            'http://localhost:5000/v1/api/categories'
+        );
+        const categories = response.data.data;
+        return categories;
+
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+};

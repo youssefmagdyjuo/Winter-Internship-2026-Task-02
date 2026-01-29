@@ -15,11 +15,15 @@ export default function SideNavBar() {
         { name: 'Products', path: '/products', icon: 'fa-bag-shopping' },
         { name: 'About', path: '/about', icon: 'fa-info-circle' },
         { name: 'Contact', path: '/contact', icon: 'fa-phone' },
+        { name: 'Add Product', path: '/add-product', icon: 'fa-phone' },
     ]);
-    
+
     const isActiveLink = (path) => location.pathname === path;
     return (
         <div className={`side_navbar_container ${isOpen ? 'navBar_opened' : 'navBar_closed'}`}>
+            <span className='btn_sideNavBar'>
+                +
+            </span>
             <nav className='side_navbar'>
                 <ul className='side_navbar_links'>
                     {links.map((link, index) => (
@@ -55,8 +59,9 @@ export default function SideNavBar() {
                             {user}
                         </div>
                     </>)
-                    :(<></>)
+                    : (<></>)
             }
+
         </div>
     )
 }
