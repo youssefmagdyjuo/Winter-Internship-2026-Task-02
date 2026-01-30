@@ -4,6 +4,7 @@ import ProductCard from '../components/ProductCard'
 import { getApprovedProducts } from '../features/products/approvedProducts'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchApprovedProductsData } from '../hooks/productsFetching'
+import { Link } from 'react-router-dom'
 export default function Products() {
     //variables
     const dispatch = useDispatch()
@@ -84,21 +85,23 @@ export default function Products() {
                 {
                     filteredProducts.length > 0 ? (
                         filteredProducts.map((product, index) => (
-                            <ProductCard key={index}>
-                                <div className='productImg'>
-                                    <img src={`http://localhost:5000/${product.heroImage}`} />
-                                </div>
+                            <Link to={`/products/${product._id}`} key={index}>
+                                <ProductCard >
+                                    <div className='productImg'>
+                                        <img src={`http://localhost:5000/${product.heroImage}`} />
+                                    </div>
 
-                                <div className="productContent">
-                                    <h3 className="productTitle">{product.title}</h3>
-                                    <p className="productDesc">{product.description}</p>
-                                    <h3 className="productPrice">{product.price}$</h3>
-                                </div>
+                                    <div className="productContent">
+                                        <h3 className="productTitle">{product.title}</h3>
+                                        <p className="productDesc">{product.description}</p>
+                                        <h3 className="productPrice">{product.price}$</h3>
+                                    </div>
 
-                                <p className="productProvider">
-                                    provided by : {product.sellerName}
-                                </p>
-                            </ProductCard>
+                                    <p className="productProvider">
+                                        provided by : {product.sellerName}
+                                    </p>
+                                </ProductCard>
+                            </Link>
                         ))
                     ) : (
                         <p className="no-results">No products found</p>
