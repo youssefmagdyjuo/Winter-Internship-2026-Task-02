@@ -122,6 +122,34 @@ h2 {
 
 }
 
+/*popup*/
+.PopUpLayout_container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.285);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 97;
+}
+
+.PopUpLayout_box {
+    width: 90%;
+    max-width: 30rem;
+    background-color: var(--white);
+    border-radius: 0.4rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.183);
+    padding: 1rem;
+}
+.flex{
+    display: flex;
+}
+.none{
+    display: none;
+}
 /* ===========navBar============= */
 /*upper navbar*/
 .upper_navbar_container {
@@ -244,7 +272,8 @@ h2 {
     border-radius: 50%;
     cursor: pointer;
 }
-.btn_sideNavBar:hover i{
+
+.btn_sideNavBar:hover i {
     transform: translateX(-3px);
     transition: all 0.3s;
 }
@@ -546,9 +575,9 @@ table tr:hover {
         width: 50%;
     }
 
-.btn_sideNavBar{
-    display: none;
-}
+    .btn_sideNavBar {
+        display: none;
+    }
 }
 
 @media (max-width: 836px) {
