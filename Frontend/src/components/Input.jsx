@@ -10,10 +10,12 @@ const Input = forwardRef(({
     name,
     style,
     id,
-    list
+    list,
+    required
 }, ref) => {
     return (
         <input
+        
             ref={ref}
             className="input"
             type={type}
@@ -26,6 +28,7 @@ const Input = forwardRef(({
             style={style}
             id={id}
             list={list}
+            required={required}
         />
     );
 });
