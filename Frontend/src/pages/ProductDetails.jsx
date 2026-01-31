@@ -23,7 +23,7 @@ export default function ProductDetails() {
     }, [id])
 
     return (
-        <div>
+        <div className='flex flex-col items-center'>
             {product.heroImage && (
                 <div className='productImages'>
                     {images.map((i, index) => (
@@ -48,9 +48,12 @@ export default function ProductDetails() {
                     <td>{product.stock}</td>
                 </tr>
             </table>
-            <div className='w-45'>
-                <Button style={'btn-primary'} >
-                    Order
+            <div>
+                <Button style={'btn-secondary'}>
+                    <div className="flex gap-2 items-center justify-center">
+                        <i className="fa-solid fa-bag-shopping"></i>
+                        <span>Add to card</span>
+                    </div>
                 </Button>
             </div>
         </div>

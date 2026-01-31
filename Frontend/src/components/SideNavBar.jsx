@@ -21,8 +21,11 @@ export default function SideNavBar() {
     const isActiveLink = (path) => location.pathname === path;
     return (
         <div className={`side_navbar_container ${isOpen ? 'navBar_opened' : 'navBar_closed'}`}>
-            <span className='btn_sideNavBar'>
-                +
+            <span 
+            className={`btn_sideNavBar center ${isOpen?'-right-4':'-right-9'}`}
+            onClick={()=>{dispatch(toggleNavBar())}}
+            >
+                <i class={`fa-solid fa-circle-arrow-${isOpen?'left':'right'}`}></i>
             </span>
             <nav className='side_navbar'>
                 <ul className='side_navbar_links'>
